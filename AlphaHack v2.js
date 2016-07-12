@@ -29,15 +29,16 @@ var Alert = android.app.AlertDialog.Builder
 //Defines
 var GUI;
 var menu;
+var num0 = 0;
 
 var liquidwalk = false;
+var xray = false;
 
 var mode = "Unknown";
 var weather = "Clear";
 var lightning = "";
 
 var getVer = ModPE.getMinecraftVersion();
-var sunlight = Level.getBrightness(Player.getX(), Player.getY() - 1, Player.getZ());
 
 ModPE.langEdit("menu.copyright", "AlphαHαck v2 @ArceusMatt");
 
@@ -89,6 +90,7 @@ function mainMenu(){
             var title = new TextView(MainActivity);
             title.setTextSize(20);
             title.setText("AlphαHαck v2");
+            title.setGravity(Gravity.CENTER);
             title.setTextColor(Color.WHITE);
             line1.addView(title);
             
@@ -102,7 +104,7 @@ showMenuBtn();
 Toast.makeText(MainActivity, "Closed successfully", 1).show();
                 }
             }));
-            line1.addView(exit);
+            menuLayout.addView(exit);
             
             var line2 = new android.widget.LinearLayout(ctx);
 	    line2.setOrientation(0);
@@ -111,16 +113,7 @@ Toast.makeText(MainActivity, "Closed successfully", 1).show();
             worldInfo.setText("World info");
             worldInfo.setOnClickListener(new View.OnClickListener({
                 onClick: function(viewarg){ 
-clientMessage("World name: "+Level.getWorldName()+" World: "+Player.getDimension()+" Biome: "+Level.getBiomeName()+"\n"+"Time: "+Level.getTime()+" Gamemode: "+mode+" Weather: "+weather+lightning)
-if(Level.getGameMode()=="0")mode = "Survival";
-if(Level.getGameMode()=="1")mode = "Creative";
-if(Level.getGameMode()=="2")mode = "Adventure";
-if(Level.getGameMode()=="3")mode = "Spectator";
-if(Level.getGameMode() > "4")mode = "Unknown";
-if(Math.round(Level.getRainLevel())=="0")weather = "Clear";
-if(Math.round(Level.getRainLevel())=="1")weather = "Rain/snow";
-if(Math.round(Level.getLightningLevel())=="0")lightning = "";
-if(Math.round(Level.getLightningLevel())=="1")lightning = "/lightning";
+clientMessage("World name: "+Level.getWorldName()+" World: "+Player.getDimension()+" Biome: "+Level.getBiomeName()+"\n"+"Time: "+Level.getTime()+" Gamemode: Weather: ");
                 }
             }));
             line2.addView(worldInfo);
@@ -205,7 +198,66 @@ clientMessage("§7Your gamemode was updated to spectator mode!");
             }));
             line2.addView(spectator);
             
+            
+            var svr = new android.widget.Button(ctx);
+            svr.setText("Get IP & Port");
+            svr.setOnClickListener(new android.view.View.OnClickListener({
+                onClick: function(viewarg){
+clientMessage("§lIP:§r " + Server.getAddress() + " §lPort:§r " + Server.getPort());
+                }
+            }));
+            line2.addView(svr);
+            
             menuLayout.addView(line2);
+            
+            var line3 = new android.widget.LinearLayout(ctx);
+	    line3.setOrientation(0);
+	    
+	    //this is a test xray
+	    	    var button2 = new Button(ctx);
+button2.setText("Ore, chest, base ESP(xray)");
+button2.setTextColor(Color.RED);
+if(xray==true)button2.setTextColor(Color.GREEN);
+            button2.setOnClickListener(new View.OnClickListener({
+                onClick: function(viewarg){
+             xray?xray=false:xray=true;
+button2.setText("Ore, chest, base ESP(xray)");
+if(xray == true){
+button2.setTextColor(Color.GREEN);
+Block.setRenderLayer(1,1);
+Block.setRenderLayer(2,1);
+Block.setRenderLayer(3,1);
+Block.setRenderLayer(12,1);
+Block.setRenderLayer(24,1);
+Block.setRenderLayer(78,1);
+Block.setShape(1, 0, 0, 0, 0.9, 0.9, 0.9);
+Block.setShape(2, 0, 0, 0, 0.9, 0.9, 0.9);
+Block.setShape(3, 0, 0, 0, 0.9, 0.9, 0.9);
+Block.setShape(12, 0, 0, 0, 0.9, 0.9, 0.9);
+Block.setShape(24, 0, 0, 0, 0.9, 0.9, 0.9);
+Block.setShape(78, 0, 0, 0, 0.9, 0.9, 0.9);
+xray = true;
+}
+if(xray == false){
+button2.setTextColor(Color.RED);
+num0++
+Block.setRenderLayer(1,num0);
+Block.setRenderLayer(2,num0);
+Block.setRenderLayer(3,num0);
+Block.setRenderLayer(12,num0);
+Block.setRenderLayer(24,num0);
+Block.setRenderLayer(78,num0);
+Block.setShape(1, 0, 0, 0, 1, 1, 1);
+Block.setShape(2, 0, 0, 0, 1, 1, 1);
+Block.setShape(3, 0, 0, 0, 1, 1, 1);
+Block.setShape(12, 0, 0, 0, 1, 1, 1);
+Block.setShape(24, 0, 0, 0, 1, 1, 1);
+Block.setShape(78, 0, 0, 0, 1, 1, 1);
+xray = false;
+}
+                }
+            }));
+            line2.addView(button2);
             
             menu = new PopupWindow(menuLayout1, ctx.getWindowManager().getDefaultDisplay().getWidth()/1, MainActivity.getWindowManager().getDefaultDisplay().getHeight());
            menu.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -221,6 +273,42 @@ menuLayout1.setPadding(20,0,20,0);
     }}));
 }
 
-function modTick() {
-	ModPE.showTipMessage(ChatColor.YELLOW + "\n\n\nHai");
+function serverMessageReceiveHook(str) {
+	ctx.runOnUiThread(new java.lang.Runnable(){
+run: function(){
+	if(ttot)Toast.makeText(ctx, str, 1).show();
+	}});
 }
+
+function devpardon() {
+var file = new java.io.File( android.os.Environment.getExternalStorageDirectory().getAbsolutePath()+"/games/com.mojang/minecraftpe/clientId.txt/");
+        var path=android.os.Environment.getExternalStorageDirectory().getAbsolutePath()+"/games/com.mojang/minecraftpe/clientId.txt/" ; 
+        java.io.File(path).mkdirs(); 
+        file.createNewFile();
+        var write = new java.io.OutputStreamWriter(new java.io.FileOutputStream(file));
+        var string="";
+        write.append((Math.floor(Math.random() * (500000 - 100000 + 1)) + 100000));
+        write.close();
+}
+
+function rptask() {
+    ctx.runOnUiThread(new java.lang.Runnable({
+        run: function () {
+            new android.os.Handler().postDelayed(new java.lang.Runnable({
+                run: function () {
+                	if (Debug == null || Debug.isShowing() == false) {
+                        net.zhuoweizhang.mcpelauncher.ScriptManager.isRemote = true;
+                        net.zhuoweizhang.mcpelauncher.ScriptManager.setLevelFakeCallback(true, false);
+                        showActive();
+                        showMenuBtn();
+                    }
+                    nx = getPlayerX();
+                    ny = getPlayerY();
+                    nz = getPlayerZ();
+                    eval(rptask())
+                }
+            }), 1000 / 70)
+        }
+    }))
+}
+rptask()
