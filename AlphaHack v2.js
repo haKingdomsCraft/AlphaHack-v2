@@ -92,7 +92,7 @@ function mainMenu(){
             title.setText("AlphαHαck v2");
             title.setGravity(Gravity.CENTER);
             title.setTextColor(Color.WHITE);
-            line1.addView(title);
+            menuLayout.addView(title);
             
             var exit = new Button(MainActivity);
             exit.setText("Exit AlphαHαck");
@@ -198,16 +198,6 @@ clientMessage("§7Your gamemode was updated to spectator mode!");
             }));
             line2.addView(spectator);
             
-            
-            var svr = new android.widget.Button(ctx);
-            svr.setText("Get IP & Port");
-            svr.setOnClickListener(new android.view.View.OnClickListener({
-                onClick: function(viewarg){
-clientMessage("§lIP:§r " + Server.getAddress() + " §lPort:§r " + Server.getPort());
-                }
-            }));
-            line2.addView(svr);
-            
             menuLayout.addView(line2);
             
             var line3 = new android.widget.LinearLayout(ctx);
@@ -224,12 +214,12 @@ if(xray==true)button2.setTextColor(Color.GREEN);
 button2.setText("Ore, chest, base ESP(xray)");
 if(xray == true){
 button2.setTextColor(Color.GREEN);
-Block.setRenderLayer(1,1);
+/*Block.setRenderLayer(1,1);
 Block.setRenderLayer(2,1);
 Block.setRenderLayer(3,1);
 Block.setRenderLayer(12,1);
 Block.setRenderLayer(24,1);
-Block.setRenderLayer(78,1);
+Block.setRenderLayer(78,1);*/
 Block.setShape(1, 0, 0, 0, 0.9, 0.9, 0.9);
 Block.setShape(2, 0, 0, 0, 0.9, 0.9, 0.9);
 Block.setShape(3, 0, 0, 0, 0.9, 0.9, 0.9);
@@ -240,13 +230,13 @@ xray = true;
 }
 if(xray == false){
 button2.setTextColor(Color.RED);
-num0++
+/*num0++
 Block.setRenderLayer(1,num0);
 Block.setRenderLayer(2,num0);
 Block.setRenderLayer(3,num0);
 Block.setRenderLayer(12,num0);
 Block.setRenderLayer(24,num0);
-Block.setRenderLayer(78,num0);
+Block.setRenderLayer(78,num0);*/
 Block.setShape(1, 0, 0, 0, 1, 1, 1);
 Block.setShape(2, 0, 0, 0, 1, 1, 1);
 Block.setShape(3, 0, 0, 0, 1, 1, 1);
@@ -257,7 +247,18 @@ xray = false;
 }
                 }
             }));
-            line2.addView(button2);
+            line3.addView(button2);
+            
+            var svr = new android.widget.Button(ctx);
+            svr.setText("Get IP & Port");
+            svr.setOnClickListener(new android.view.View.OnClickListener({
+                onClick: function(viewarg){
+clientMessage("§lIP:§r " + Server.getAddress() + " §lPort:§r " + Server.getPort());
+                }
+            }));
+            line3.addView(svr);
+            
+             menuLayout.addView(line3);
             
             menu = new PopupWindow(menuLayout1, ctx.getWindowManager().getDefaultDisplay().getWidth()/1, MainActivity.getWindowManager().getDefaultDisplay().getHeight());
            menu.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
