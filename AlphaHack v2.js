@@ -1,4 +1,5 @@
-var MainActivity = com.mojang.minecraftpe.MainActivity.currentMainActivity.get();
+var ctx = com.mojang.minecraftpe.MainActivity.currentMainActivity.get();
+var MainActivity = ctx;
 
 //Get language of client side minecraft
 var getLanguage = ModPE.getLanguage();
@@ -29,7 +30,7 @@ var Alert = android.app.AlertDialog.Builder
 var GUI;
 var menu;
 
-ModPE.langEdit("menu.copyright", "AlphaHack v2 @ArceusMatt");
+ModPE.langEdit("menu.copyright", "AlphαHαck v2 @ArceusMatt");
 
 function dip2px(dips){
     return Math.ceil(dips * ctx.getResources().getDisplayMetrics().density);
@@ -76,12 +77,24 @@ function mainMenu(){
             menuScroll.addView(menuLayout);
             menuLayout1.addView(menuScroll);
 
-var name = new TextView(MainActivity);
+            var name = new TextView(MainActivity);
             name.setTextSize(20);
-            name.setText("Alphα Hαck v2");
+            name.setText("AlphαHαck v2");
             name.setTextColor(Color.WHITE);
             name.setGravity(Gravity.CENTER);
             menuLayout.addView(name);
+            
+            var exit = new Button(MainActivity);
+            exit.setText("Exit AlphαHαck");
+            exit.setTextColor(Color.RED);
+            exit.setOnClickListener(new View.OnClickListener({
+                onClick: function(viewarg){
+menu.dismiss(); 
+showMenuBtn(); 
+Toast.makeText(MainActivity, "Closed successfully", 1).show();
+                }
+            }));
+            menuLayout.addView(exit);
             
             menu = new PopupWindow(menuLayout1, MainActivity.getWindowManager().getDefaultDisplay().getWidth()/1, MainActivity.getWindowManager().getDefaultDisplay().getHeight());
            menu.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
