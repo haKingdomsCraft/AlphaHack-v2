@@ -30,6 +30,29 @@ var Alert = android.app.AlertDialog.Builder
 var GUI;
 var menu;
 
+var mode = "Unknown";
+var weather = "Clear";
+var lightning = "";
+
+var getMode = Level.getGameMode();
+if(getMode=="0")mode = "Survival";
+if(getMode=="1")mode = "Creative";
+if(getMode=="2")mode = "Adventure";
+if(getMode=="3")mode = "Spectator";
+if(getMode > "4")mode = "Unknown";
+var getTime = Level.getTime());
+var getWeather = Math.round(Level.getRainLevel());
+if(getWeather=="0")weather = "Clear";
+if(getWeather=="1")weather = "Rain/snow";
+var getLightning = Math.round(Level.getLightningLevel());
+if(getLightning=="0")lightning = "";
+if(getLightning=="1")lightning = "/lightning";
+var getVer = ModPE.getMinecraftVersion();
+var getBiome = Level.getBiomeName();
+var sunlight = Level.getBrightness(Player.getX(), Player.getY() - 1, Player.getZ());
+var getWorld = Player.getDimension();
+var worldDir = Level.getWorldName();
+
 ModPE.langEdit("menu.copyright", "AlphαHαck v2 @ArceusMatt");
 
 function dip2px(dips){
@@ -76,17 +99,21 @@ function mainMenu(){
             menuLayout1.setOrientation(1);
             menuScroll.addView(menuLayout);
             menuLayout1.addView(menuScroll);
+            
+            var line1 = new android.widget.LinearLayout(ctx);
+	    line1.setOrientation(0);
 
-            var name = new TextView(MainActivity);
-            name.setTextSize(20);
-            name.setText("AlphαHαck v2");
-            name.setTextColor(Color.WHITE);
-            name.setGravity(Gravity.CENTER);
-            menuLayout.addView(name);
+            var title = new TextView(MainActivity);
+            title.setTextSize(20);
+            title.setText("AlphαHαck v2");
+            title.setTextColor(Color.WHITE);
+            title.setGravity(Gravity.LEFT);
+            line1.addView(title);
             
             var exit = new Button(MainActivity);
             exit.setText("Exit AlphαHαck");
             exit.setTextColor(Color.RED);
+            exit.setGravity(Gravity.CENTER);
             exit.setOnClickListener(new View.OnClickListener({
                 onClick: function(viewarg){
 menu.dismiss(); 
@@ -94,16 +121,54 @@ showMenuBtn();
 Toast.makeText(MainActivity, "Closed successfully", 1).show();
                 }
             }));
-            menuLayout.addView(exit);
+            line1.addView(exit);
             
-            menu = new PopupWindow(menuLayout1, MainActivity.getWindowManager().getDefaultDisplay().getWidth()/1, MainActivity.getWindowManager().getDefaultDisplay().getHeight());
+            var menuInfo = new TextView(MainActivity);
+            menuInfo.setTextSize(20);
+            menuInfo.setText("Scroll down for more!");
+            menuInfo.setTextColor(Color.WHITE);
+            menuInfo.setGravity(Gravity.LEFT);
+            line1.addView(menuInfo);
+            
+            menuLayout.addView(line1);
+            
+            var line2 = new android.widget.LinearLayout(ctx);
+	    line2.setOrientation(0);
+	    
+	    var checkUser = new TextView(MainActivity);
+            checkUser.setTextSize(15);
+            checkUser.setText("User: "+Player.getName(Player.getEntity()));
+            checkUser.setTextColor(Color.WHITE);
+            line2.addView(checkUser);
+            
+            var checkMode = new TextView(MainActivity);
+            checkMode.setTextSize(15);
+            checkMode.setText("Gamemode: "+mode);
+            checkMode.setTextColor(Color.WHITE);
+            line2.addView(checkMode);
+            
+            var checkUser = new TextView(MainActivity);
+            checkUser.setTextSize(15);
+            checkUser.setText("Time: "+getTime);
+            checkUser.setTextColor(Color.WHITE);
+            line2.addView(checkUser);
+            
+            var checkWeather = new TextView(MainActivity);
+            checkWeather.setTextSize(15);
+            checkWeather.setText("Weather: "+weather+lightning);
+            checkWeather.setTextColor(Color.WHITE);
+            line2.addView(checkWeather);
+            
+            menuLayout.addView(line2);
+            
+            menu = new PopupWindow(menuLayout1, ctx.getWindowManager().getDefaultDisplay().getWidth()/1, MainActivity.getWindowManager().getDefaultDisplay().getHeight());
            menu.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 		   var bg = new android.graphics.drawable.GradientDrawable();
       bg.setColor(Color.TRANSPARENT);
       bg.setStroke(10,Color.BLACK);
 menuLayout1.setBackgroundDrawable(bg);
 menuLayout1.setPadding(20,0,20,0);
-            menu.showAtLocation(ctx.getWindow().getDecorView(), Gravity.LEFT | Gravity.TOP, 0, 0);
+            menu.showAtLocation(MainActivity.getWindow().getDecorView(), Gravity.LEFT | Gravity.TOP, 0, 0);
             }catch(error){
                 Toast.makeText(MainActivity, "An error occured: " + error, 1).show();
             }
