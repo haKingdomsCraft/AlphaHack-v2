@@ -30,28 +30,14 @@ var Alert = android.app.AlertDialog.Builder
 var GUI;
 var menu;
 
+var liquidwalk = false;
+
 var mode = "Unknown";
 var weather = "Clear";
 var lightning = "";
 
-var getMode = Level.getGameMode();
-if(getMode=="0")mode = "Survival";
-if(getMode=="1")mode = "Creative";
-if(getMode=="2")mode = "Adventure";
-if(getMode=="3")mode = "Spectator";
-if(getMode > "4")mode = "Unknown";
-var getTime = Level.getTime());
-var getWeather = Math.round(Level.getRainLevel());
-if(getWeather=="0")weather = "Clear";
-if(getWeather=="1")weather = "Rain/snow";
-var getLightning = Math.round(Level.getLightningLevel());
-if(getLightning=="0")lightning = "";
-if(getLightning=="1")lightning = "/lightning";
 var getVer = ModPE.getMinecraftVersion();
-var getBiome = Level.getBiomeName();
 var sunlight = Level.getBrightness(Player.getX(), Player.getY() - 1, Player.getZ());
-var getWorld = Player.getDimension();
-var worldDir = Level.getWorldName();
 
 ModPE.langEdit("menu.copyright", "AlphαHαck v2 @ArceusMatt");
 
@@ -99,21 +85,16 @@ function mainMenu(){
             menuLayout1.setOrientation(1);
             menuScroll.addView(menuLayout);
             menuLayout1.addView(menuScroll);
-            
-            var line1 = new android.widget.LinearLayout(ctx);
-	    line1.setOrientation(0);
 
             var title = new TextView(MainActivity);
             title.setTextSize(20);
             title.setText("AlphαHαck v2");
             title.setTextColor(Color.WHITE);
-            title.setGravity(Gravity.LEFT);
             line1.addView(title);
             
             var exit = new Button(MainActivity);
             exit.setText("Exit AlphαHαck");
             exit.setTextColor(Color.RED);
-            exit.setGravity(Gravity.CENTER);
             exit.setOnClickListener(new View.OnClickListener({
                 onClick: function(viewarg){
 menu.dismiss(); 
@@ -123,41 +104,106 @@ Toast.makeText(MainActivity, "Closed successfully", 1).show();
             }));
             line1.addView(exit);
             
-            var menuInfo = new TextView(MainActivity);
-            menuInfo.setTextSize(20);
-            menuInfo.setText("Scroll down for more!");
-            menuInfo.setTextColor(Color.WHITE);
-            menuInfo.setGravity(Gravity.LEFT);
-            line1.addView(menuInfo);
-            
-            menuLayout.addView(line1);
-            
             var line2 = new android.widget.LinearLayout(ctx);
 	    line2.setOrientation(0);
 	    
-	    var checkUser = new TextView(MainActivity);
-            checkUser.setTextSize(15);
-            checkUser.setText("User: "+Player.getName(Player.getEntity()));
-            checkUser.setTextColor(Color.WHITE);
-            line2.addView(checkUser);
+	    var worldInfo = new Button(ctx);
+            worldInfo.setText("World info");
+            worldInfo.setOnClickListener(new View.OnClickListener({
+                onClick: function(viewarg){ 
+clientMessage("World name: "+Level.getWorldName()+" World: "+Player.getDimension()+" Biome: "+Level.getBiomeName()+"\n"+"Time: "+Level.getTime()+" Gamemode: "+mode+" Weather: "+weather+lightning)
+if(Level.getGameMode()=="0")mode = "Survival";
+if(Level.getGameMode()=="1")mode = "Creative";
+if(Level.getGameMode()=="2")mode = "Adventure";
+if(Level.getGameMode()=="3")mode = "Spectator";
+if(Level.getGameMode() > "4")mode = "Unknown";
+if(Math.round(Level.getRainLevel())=="0")weather = "Clear";
+if(Math.round(Level.getRainLevel())=="1")weather = "Rain/snow";
+if(Math.round(Level.getLightningLevel())=="0")lightning = "";
+if(Math.round(Level.getLightningLevel())=="1")lightning = "/lightning";
+                }
+            }));
+            line2.addView(worldInfo);
+	    
+	    var button1 = new Button(ctx);
+button1.setText("Walk on liquid");
+button1.setTextColor(Color.RED);
+if(liquidwalk==true)button1.setTextColor(Color.GREEN);
+            button1.setOnClickListener(new View.OnClickListener({
+                onClick: function(viewarg){
+             liquidwalk?liquidwalk=false:liquidwalk=true;
+button1.setText("Walk on liquid");
+if(liquidwalk == true){
+button1.setTextColor(Color.GREEN);
+Block.setShape(8, 0, 0, 0, 1, 0.6, 1);
+Block.setShape(9, 0, 0, 0, 1, 0.6, 1);
+Block.setShape(10, 0, 0, 0, 1, 0.6, 1);
+Block.setShape(11, 0, 0, 0, 1, 0.6, 1);
+Block.defineBlock(8, "Water", [["still_water", 0]], 8, false, 4);
+Block.defineBlock(9, "Stationary Water", [["still_water", 0]], 9, false, 4);
+Block.defineBlock(10, "Lava", [["still_lava", 0]], 10, false, 4);
+Block.defineBlock(11, "Stationary Lava", [["still_lava", 0]], 11, false, 4);
+liquidwalk = true;
+}
+if(liquidwalk == false){
+button1.setTextColor(Color.RED);
+Block.setShape(8, null, null, null, null, null, null);
+Block.setShape(9, null, null, null, null, null, null);
+Block.setShape(10, null, null, null, null, null, null);
+Block.setShape(11, null, null, null, null, null, null);
+liquidwalk = false;
+}
+                }
+            }));
+            line2.addView(button1);
             
-            var checkMode = new TextView(MainActivity);
-            checkMode.setTextSize(15);
-            checkMode.setText("Gamemode: "+mode);
-            checkMode.setTextColor(Color.WHITE);
-            line2.addView(checkMode);
+            var creative = new Button(ctx);
+            creative.setText("Creative");        
+            creative.setOnClickListener(new View.OnClickListener({
+                onClick: function(viewarg){
+                    Level.setGameMode(1);
+Server.sendChat("/gamemode 1");
+Server.sendChat("/gamemode creative");
+clientMessage("§7Your gamemode was updated to creative mode!");
+                }
+            }));
+            line2.addView(creative);
             
-            var checkUser = new TextView(MainActivity);
-            checkUser.setTextSize(15);
-            checkUser.setText("Time: "+getTime);
-            checkUser.setTextColor(Color.WHITE);
-            line2.addView(checkUser);
+            var survival = new Button(ctx);
+            survival.setText("Survival");        
+            survival.setOnClickListener(new View.OnClickListener({
+                onClick: function(viewarg){
+                    Level.setGameMode(0);
+Server.sendChat("/gamemode 0");
+Server.sendChat("/gamemode survival");
+clientMessage("§7Your gamemode was updated to survival mode!");
+                }
+            }));
+            line2.addView(survival);
             
-            var checkWeather = new TextView(MainActivity);
-            checkWeather.setTextSize(15);
-            checkWeather.setText("Weather: "+weather+lightning);
-            checkWeather.setTextColor(Color.WHITE);
-            line2.addView(checkWeather);
+            var adventure = new Button(ctx);
+            adventure.setText("Adventure");        
+            adventure.setOnClickListener(new View.OnClickListener({
+                onClick: function(viewarg){
+                    Level.setGameMode(2);
+Server.sendChat("/gamemode 2");
+Server.sendChat("/gamemode adventure");
+clientMessage("§7Your gamemode was updated to adventure mode!");
+                }
+            }));
+            line2.addView(adventure);
+            
+            var spectator = new Button(ctx);
+            spectator.setText("Spectator");        
+            spectator.setOnClickListener(new View.OnClickListener({
+                onClick: function(viewarg){
+                    Level.setGameMode(3);
+Server.sendChat("/gamemode 3");
+Server.sendChat("/gamemode spectator");
+clientMessage("§7Your gamemode was updated to spectator mode!");
+                }
+            }));
+            line2.addView(spectator);
             
             menuLayout.addView(line2);
             
@@ -173,4 +219,8 @@ menuLayout1.setPadding(20,0,20,0);
                 Toast.makeText(MainActivity, "An error occured: " + error, 1).show();
             }
     }}));
+}
+
+function modTick() {
+	ModPE.showTipMessage(ChatColor.YELLOW + "\n\n\nHai");
 }
