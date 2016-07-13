@@ -47,7 +47,29 @@ var bg64 = "iVBORw0KGgoAAAANSUhEUgAAAD8AAAA/CAYAAABXXxDfAAAABHNCSVQICAgIfAhkiAAA
 
 var buttonBg = "iVBORw0KGgoAAAANSUhEUgAAAEYAAAAgCAYAAACvgw7DAAAFB0lEQVR42t1aV47kOgzsQ0zOOWIwwOScw/1P5EVpUUY1pyjZ2PeAxX6wqWiJ5SIV2pP19fVuYWGhm5mZ6WZnZ7u5ubki8/PzvSwuLnZLS0vdyspKt7q6WgT9IBsbG93m5ma3tbVVZHt7u9vZ2ekF+d3d3ZLe29srmnloCvL6DGj2R1rH0GeznoJ2bAvNea6trfVzhx3Ly8vFJtgOe6lhL2yaIHF5edl9f393n5+f3dfXV9GQj4+PIky/v78X/fb2VtKvr68lTU1BHvL8/Ny9vLxMCcpdHv3Ynlqfr/1QzzKWq3bzoeb8qWkbbQYWAGkCpgAUDPb09NQ9Pj4Wub+/L/rh4aEvo6AM9RCkKayD3N3dFdF2TLu+2pZ1Oh7npM9iWZwj87RH27vnUtgezCnAACltpIM7o2Ody9f6R4DUaAecgtYC2809juPGU4AKYxBXFJjIhsxgN7kISG3CLeNc+6y/zjuri3NzfQhMYQx+4GOs5BvJUI8oDwGsxq5amxaoyqKsvvUS1G6O3TOGwMRGNfdoMarmPrE89s+Mq4GZsSa+vJodjItYrQpjsMLQl1UPcYmxcac2yaF1Ll60DI+x0zGGeSzlvStlfl5jiHOBrHwIkK03WwvQ2dgtF412ASDsc8o+Bus7Cm5vb39EfrdCKLpuMhl9nTi3qrnaGEBabeNKR41N4ASBBhsdgOLAgb6+vu7rKWNY5IDSsrgHqQE21Hh9zhBwFCQLjIo2VtCirztwasxxG60I0hDmubnUnp2BE+3GEaK4kgIT2YJyBc3FHGdIZlzWNmNM1j8D0u1LMuZEpvwABmeMm5ubH8hF5mSbOPeGomFuC94CZigDImtb7TLWQIMEg4BxG6l4lsqMqxnpzmBZu1bwHgKMa+eAgeBUPgWMBuC/EZgsJtXc2M3VbQPUXguMiynu1PuvAKPxlNIDgysHAENw6FYakCNj3ApUm9yfxpj/Epgs6NLeKcZcXV31oDjW6P5l7KrUWm3Grkqub2uDGftFxmgYKcBgHwPGABiyxrlVxhgX0Ia+3do+ZghbagfX2qZSw4KyhVJWJQUGO1wFKAZiTUe21M5ANYPGrEity7LWZtKxhaJhpF+ucaUHQAiOY47zxXhcr93WtZba1vmp9iJqrlS7N1J7aC8wKMDgdA1gyBZoigPHBeTaQS87T429uqjd4MVY07q9i6BQaG85KxEYgHJxcTHlTg6cDKB4wTX2CqMGXuu6YeiFWhZXaCd1AQY3eIgx+NsAgEBDlDXUCo7b68Sz1pArjBqIQ2XM/U0MCXzxtBe2l/sYMgYFYAxEQYouRoRj3NElL5Y7ZsVtQM2IGsg1if8oRKYoKBpjyw0eGANgAAjdiaLgOFEWtQK1O264fFau90RDznQOfAeKrsYkR7nzxf9KCFJkCvT5+XmfJnsiqi4OZaKgRBCzFTC6bVbnjHbbDB2Pc6Y9JARt7f+JBGMAhrLl7Ozsh2tlooMpo1ydtokAuq1CBnTUDgS34mhYIEugaT/y5X8l7GNOTk5KhYKj+cieqJVJOqgDQJkX314E1kl8rnt+NiaDqy4ytJX2HR0d/Xal4+Pj/+VrB/3qgV857O/vly8bkIdGHmnm2RblkIODgyLMs+zw8LAYAEGagjzrtS+fjTnxawjM3X35gPzp6Wk3QScyhqipaJljiQZoXcWcZHGK/biPinEtuqAeWxz7MoYqa+J8aSNwAFl+AeaQgIFzUqgAAAAAAElFTkSuQmCC=";
 
-var imageButton = new android.graphics.drawable.BitmapDrawable(android.graphics.BitmapFactory.decodeByteArray(android.util.Base64.decode(imageButton, 0) , 0, android.util.Base64.decode(imageButton, 0).length));
+var imageButton = new android.graphics.drawable.BitmapDrawable(android.graphics.BitmapFactory.decodeByteArray(android.util.Base64.decode(buttonBg, 0) , 0, android.util.Base64.decode(buttonBg, 0).length));
+
+function enableMod(){
+ctx.runOnUiThread(new Runnable({ run: function(){
+    try{
+        var layout = new LinearLayout(ctx);
+        layout.setOrientation(1);
+        var menuNo = new Button(ctx);
+menuNo.setTextSize(10);
+        menuNo.setText("");
+		menuNo.setTextColor(Color.GREEN);
+        layout.addView(menuNo);
+ 
+        Debug = new PopupWindow(layout, dip2px(1), dip2px(1)); 
+
+        Debug.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Debug.showAtLocation(ctx.getWindow().getDecorView(), Gravity.RIGHT | Gravity.TOP, 0, 1500);
+        }catch(err){
+            Toast.makeText(ctx, "An error occured: " + err, 1).show();
+        }
+    }}));
+}
+enableMod();
 
 function showMenuBtn(){
 MainActivity.runOnUiThread(new Runnable({ run: function(){
@@ -125,6 +147,7 @@ if(Level.getRainLevel()=="1")clientMessage("Weather: rain/snow "+" Time: "+Level
 	    
 	    var button1 = new Button(MainActivity);
 button1.setText("Walk on liquid");
+button1.setBackgroundDrawable(imageButton);
 button1.setTextColor(Color.RED);
 if(liquidwalk==true)button1.setTextColor(Color.GREEN);
             button1.setOnClickListener(new View.OnClickListener({
@@ -157,6 +180,7 @@ liquidwalk = false;
             
             var creative = new Button(MainActivity);
             creative.setText("Creative");        
+            creative.setBackgroundDrawable(imageButton);
             creative.setOnClickListener(new View.OnClickListener({
                 onClick: function(viewarg){
                     Level.setGameMode(1);
@@ -169,7 +193,8 @@ clientMessage("§7Your gamemode was updated to creative mode!");
             line2.addView(creative);
             
             var survival = new Button(MainActivity);
-            survival.setText("Survival");        
+            survival.setText("Survival");
+            survival.setBackgroundDrawable(imageButton);
             survival.setOnClickListener(new View.OnClickListener({
                 onClick: function(viewarg){
                     Level.setGameMode(0);
@@ -182,7 +207,8 @@ clientMessage("§7Your gamemode was updated to survival mode!");
             line2.addView(survival);
             
             var adventure = new Button(MainActivity);
-            adventure.setText("Adventure");        
+            adventure.setText("Adventure");       
+            adventure.setBackgroundDrawable(imageButton);
             adventure.setOnClickListener(new View.OnClickListener({
                 onClick: function(viewarg){
                     Level.setGameMode(2);
@@ -195,7 +221,8 @@ clientMessage("§7Your gamemode was updated to adventure mode!");
             line2.addView(adventure);
             
             var spectator = new Button(MainActivity);
-            spectator.setText("Spectator");        
+            spectator.setText("Spectator");     
+            spectator.setBackgroundDrawable(imageButton);
             spectator.setOnClickListener(new View.OnClickListener({
                 onClick: function(viewarg){
                     Level.setGameMode(3);
@@ -215,6 +242,7 @@ clientMessage("§7Your gamemode was updated to spectator mode!");
 	    //this is a test xray
 	    	    var button2 = new Button(MainActivity);
 button2.setText("Ore ESP(xray)");
+button2.setBackgroundDrawable(imageButton);
 button2.setTextColor(Color.RED);
 if(xray==true)button2.setTextColor(Color.GREEN);
             button2.setOnClickListener(new View.OnClickListener({
@@ -261,28 +289,44 @@ xray = false;
             
             var svr = new android.widget.Button(MainActivity);
             svr.setText("Server IP:Port");
+            svr.setBackgroundDrawable(imageButton);
             svr.setOnClickListener(new android.view.View.OnClickListener({
                 onClick: function(viewarg){
 clientMessage("§lIP:§r " + Server.getAddress() + " §lPort:§r " + Server.getPort());
+if(Server.getAddress()=="null")clientMessage("You are not on a server!");
                 }
             }));
             line3.addView(svr);
             
-            var iteminfo = new Button(MainActivity);
-            iteminfo.setText("Item info");        
-            iteminfo.setOnClickListener(new View.OnClickListener({
+            var itemInfo = new Button(MainActivity);
+            itemInfo.setText("Item info"); 
+            itemInfo.setBackgroundDrawable(imageButton);
+            itemInfo.setOnClickListener(new View.OnClickListener({
                 onClick: function(viewarg){
 clientMessage("Item ID: " + Player.getCarriedItem());
 clientMessage("Data / damage: " + Player.getCarriedItemData());
 clientMessage("Amount in hand: " + Player.getCarriedItemCount());
                 }
             }));
-            line3.addView(iteminfo);
+            line3.addView(itemInfo);
+            
+            var cidban = new Button(MainActivity);
+            cidban.setText("CID/dev pardon"); 
+            cidban.setBackgroundDrawable(imageButton);
+            cidban.setOnClickListener(new View.OnClickListener({
+                onClick: function(viewarg){
+                	devpardon();
+                	
+Toast.makeText(ctx, "You will crash & be unbanned!", 1).show();
+
+                }
+            }));
+            line3.addView(cidban);
             
              menuLayout.addView(line3);
             
             menu = new PopupWindow(menuLayout1, ctx.getWindowManager().getDefaultDisplay().getWidth()/1, MainActivity.getWindowManager().getDefaultDisplay().getHeight());
-           menu.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+           menu.setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.parseColor("#93000000")));
 		   var bg = new android.graphics.drawable.GradientDrawable();
       bg.setColor(Color.TRANSPARENT);
       bg.setStroke(10,Color.BLACK);
@@ -321,7 +365,7 @@ function rptask() {
                 	if (Debug == null || Debug.isShowing() == false) {
                         net.zhuoweizhang.mcpelauncher.ScriptManager.isRemote = true;
                         net.zhuoweizhang.mcpelauncher.ScriptManager.setLevelFakeCallback(true, false);
-                        showActive();
+                        enableMod();
                         showMenuBtn();
                     }
                     nx = getPlayerX();
