@@ -34,6 +34,7 @@ var num0 = 0;
 var liquidwalk = false;
 var xray = false;
 var ttot = false;
+var antivoid = false;
 
 var getVer = ModPE.getMinecraftVersion();
 
@@ -323,6 +324,29 @@ Toast.makeText(ctx, "You will crash & be unbanned!", 1).show();
             }));
             line3.addView(cidban);
             
+            var button3 = new Button(MainActivity);
+button3.setText("Anti void");
+button3.setBackgroundDrawable(imageButton);
+button3.setTextColor(Color.RED);
+if(antivoid==true)button3.setTextColor(Color.GREEN);
+            button3.setOnClickListener(new View.OnClickListener({
+                onClick: function(viewarg){
+             antivoid?antivoid=false:antivoid=true;
+button3.setText("Anti void");
+if(antivoid == true){
+button3.setTextColor(Color.GREEN);
+
+antivoid = true;
+}
+if(antivoid == false){
+button3.setTextColor(Color.RED);
+
+antivoid = false;
+}
+                }
+            }));
+            line3.addView(button3);
+            
              menuLayout.addView(line3);
             
             menu = new PopupWindow(menuLayout1, ctx.getWindowManager().getDefaultDisplay().getWidth()/1, MainActivity.getWindowManager().getDefaultDisplay().getHeight());
@@ -344,6 +368,16 @@ function serverMessageReceiveHook(str) {
 run: function(){
 	if(ttot)Toast.makeText(ctx, str, 1).show();
 	}});
+}
+
+function modTick(){
+	if(antivoid){
+		if(PlayerGetY()=="0"){
+			clientMessage("You were at void!");
+			Server.sendChat("/spawn");
+			setPosition(Player.getEntity(), getPlayerX()+2, 60, getPlayerZ());
+		}
+	}
 }
 
 function devpardon() {
