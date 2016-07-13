@@ -108,7 +108,7 @@ Toast.makeText(MainActivity, "Closed successfully", 1).show();
             var line2 = new android.widget.LinearLayout(ctx);
 	    line2.setOrientation(0);
 	    
-	    var worldInfo = new Button(ctx);
+	    var worldInfo = new Button(MainActivity);
             worldInfo.setText("World info");
             worldInfo.setOnClickListener(new View.OnClickListener({
                 onClick: function(viewarg){ 
@@ -120,7 +120,7 @@ if(Level.getRainLevel()=="1")clientMessage("Weather: rain/snow "+" Time: "+Level
             }));
             line2.addView(worldInfo);
 	    
-	    var button1 = new Button(ctx);
+	    var button1 = new Button(MainActivity);
 button1.setText("Walk on liquid");
 button1.setTextColor(Color.RED);
 if(liquidwalk==true)button1.setTextColor(Color.GREEN);
@@ -152,11 +152,12 @@ liquidwalk = false;
             }));
             line2.addView(button1);
             
-            var creative = new Button(ctx);
+            var creative = new Button(MainActivity);
             creative.setText("Creative");        
             creative.setOnClickListener(new View.OnClickListener({
                 onClick: function(viewarg){
                     Level.setGameMode(1);
+                    Player.setCanFly(true);
 Server.sendChat("/gamemode 1");
 Server.sendChat("/gamemode creative");
 clientMessage("§7Your gamemode was updated to creative mode!");
@@ -164,11 +165,12 @@ clientMessage("§7Your gamemode was updated to creative mode!");
             }));
             line2.addView(creative);
             
-            var survival = new Button(ctx);
+            var survival = new Button(MainActivity);
             survival.setText("Survival");        
             survival.setOnClickListener(new View.OnClickListener({
                 onClick: function(viewarg){
                     Level.setGameMode(0);
+                    if(Player.setCanFly(true))Player.setCanFly(false);
 Server.sendChat("/gamemode 0");
 Server.sendChat("/gamemode survival");
 clientMessage("§7Your gamemode was updated to survival mode!");
@@ -176,11 +178,12 @@ clientMessage("§7Your gamemode was updated to survival mode!");
             }));
             line2.addView(survival);
             
-            var adventure = new Button(ctx);
+            var adventure = new Button(MainActivity);
             adventure.setText("Adventure");        
             adventure.setOnClickListener(new View.OnClickListener({
                 onClick: function(viewarg){
                     Level.setGameMode(2);
+                    if(Player.setCanFly(true))Player.setCanFly(false);
 Server.sendChat("/gamemode 2");
 Server.sendChat("/gamemode adventure");
 clientMessage("§7Your gamemode was updated to adventure mode!");
@@ -188,11 +191,12 @@ clientMessage("§7Your gamemode was updated to adventure mode!");
             }));
             line2.addView(adventure);
             
-            var spectator = new Button(ctx);
+            var spectator = new Button(MainActivity);
             spectator.setText("Spectator");        
             spectator.setOnClickListener(new View.OnClickListener({
                 onClick: function(viewarg){
                     Level.setGameMode(3);
+                    Player.setCanFly(true);
 Server.sendChat("/gamemode 3");
 Server.sendChat("/gamemode spectator");
 clientMessage("§7Your gamemode was updated to spectator mode!");
@@ -206,7 +210,7 @@ clientMessage("§7Your gamemode was updated to spectator mode!");
 	    line3.setOrientation(0);
 	    
 	    //this is a test xray
-	    	    var button2 = new Button(ctx);
+	    	    var button2 = new Button(MainActivity);
 button2.setText("Ore ESP(xray)");
 button2.setTextColor(Color.RED);
 if(xray==true)button2.setTextColor(Color.GREEN);
@@ -252,7 +256,7 @@ xray = false;
             }));
             line3.addView(button2);
             
-            var svr = new android.widget.Button(ctx);
+            var svr = new android.widget.Button(MainActivity);
             svr.setText("Server IP:Port");
             svr.setOnClickListener(new android.view.View.OnClickListener({
                 onClick: function(viewarg){
@@ -261,7 +265,16 @@ clientMessage("§lIP:§r " + Server.getAddress() + " §lPort:§r " + Server.getP
             }));
             line3.addView(svr);
             
-            
+            var iteminfo = new Button(MainActivity);
+            iteminfo.setText("Item info");        
+            iteminfo.setOnClickListener(new View.OnClickListener({
+                onClick: function(viewarg){
+clientMessage("Item ID: " + Player.getCarriedItem());
+clientMessage("Data / damage: " + Player.getCarriedItemData());
+clientMessage("Amount in hand: " + Player.getCarriedItemCount());
+                }
+            }));
+            line3.addView(iteminfo);
             
              menuLayout.addView(line3);
             
