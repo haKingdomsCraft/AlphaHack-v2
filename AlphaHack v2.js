@@ -38,7 +38,7 @@ var antivoid = false;
 
 var getVer = ModPE.getMinecraftVersion();
 
-ModPE.langEdit("menu.copyright", "AlphαHαck v2 @ArceusMatt");
+ModPE.langEdit("menu.copyright", "MyPixelHack v2 by haKingdomsCraft");
 
 function dip2px(dips){
     return Math.ceil(dips * ctx.getResources().getDisplayMetrics().density);
@@ -188,7 +188,7 @@ liquidwalk = false;
                     Player.setCanFly(true);
 Server.sendChat("/gamemode 1");
 Server.sendChat("/gamemode creative");
-clientMessage("§7Your gamemode was updated to creative mode!");
+clientMessage("§l§7(§b!§7) §cYour gamemode was updated to creative mode!");
                 }
             }));
             line2.addView(creative);
@@ -202,7 +202,7 @@ clientMessage("§7Your gamemode was updated to creative mode!");
                     if(Player.setCanFly(true))Player.setCanFly(false);
 Server.sendChat("/gamemode 0");
 Server.sendChat("/gamemode survival");
-clientMessage("§7Your gamemode was updated to survival mode!");
+clientMessage("§l§7(§b!§7) §cYour gamemode was updated to survival mode!");
                 }
             }));
             line2.addView(survival);
@@ -216,7 +216,7 @@ clientMessage("§7Your gamemode was updated to survival mode!");
                     if(Player.setCanFly(true))Player.setCanFly(false);
 Server.sendChat("/gamemode 2");
 Server.sendChat("/gamemode adventure");
-clientMessage("§7Your gamemode was updated to adventure mode!");
+clientMessage("§l§7(§b!§7) §cYour gamemode was updated to adventure mode!");
                 }
             }));
             line2.addView(adventure);
@@ -230,7 +230,7 @@ clientMessage("§7Your gamemode was updated to adventure mode!");
                     Player.setCanFly(true);
 Server.sendChat("/gamemode 3");
 Server.sendChat("/gamemode spectator");
-clientMessage("§7Your gamemode was updated to spectator mode!");
+clientMessage("§l§7(§b!§7) §cYour gamemode was updated to spectator mode!");
                 }
             }));
             line2.addView(spectator);
