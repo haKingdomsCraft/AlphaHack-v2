@@ -38,7 +38,7 @@ var antivoid = false;
 
 var getVer = ModPE.getMinecraftVersion();
 
-ModPE.langEdit("menu.copyright", "MyPixelHack v2 by haKingdomsCraft");
+ModPE.langEdit("menu.copyright", "MyPixelHack v1 by haKingdomsCraft");
 
 function dip2px(dips){
     return Math.ceil(dips * ctx.getResources().getDisplayMetrics().density);
@@ -58,7 +58,7 @@ ctx.runOnUiThread(new Runnable({ run: function(){
         var menuNo = new Button(ctx);
 menuNo.setTextSize(10);
         menuNo.setText("");
-		menuNo.setTextColor(Color.GREEN);
+		menuNo.setTextColor(Color.BLUE);
         layout.addView(menuNo);
  
         Debug = new PopupWindow(layout, dip2px(1), dip2px(1)); 
@@ -294,7 +294,7 @@ xray = false;
             svr.setOnClickListener(new android.view.View.OnClickListener({
                 onClick: function(viewarg){
 clientMessage("§lIP:§r " + Server.getAddress() + " §lPort:§r " + Server.getPort());
-if(Server.getAddress()=="null")clientMessage("You are not on a server!");
+if(Server.getAddress()=="null")clientMessage("§l§7(§b!§7) §cYou are not on a server!");
                 }
             }));
             line3.addView(svr);
@@ -318,7 +318,7 @@ clientMessage("Amount in hand: " + Player.getCarriedItemCount());
                 onClick: function(viewarg){
                 	devpardon();
                 	
-Toast.makeText(ctx, "You will crash & be unbanned!", 1).show();
+Toast.makeText(ctx, "§l§7(§b!§7) §cYou will crash & be unbanned!", 1).show();
 
                 }
             }));
@@ -373,7 +373,7 @@ run: function(){
 function modTick(){
 	if(antivoid){
 		if(PlayerGetY()=="0"){
-			clientMessage("You were at void!");
+			clientMessage("§l§7(§b!§7) §cYou were at void!");
 			Server.sendChat("/spawn");
 			setPosition(Player.getEntity(), getPlayerX()+2, 60, getPlayerZ());
 		}
